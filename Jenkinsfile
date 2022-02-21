@@ -5,27 +5,17 @@ timestamps {
 node () {
 
 	stage ('App-IC - Checkout') {
- 	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git-login', url: 'https://github.com/bnasslahsen/jenkins-sample.git']]]) 
+ 	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git-login', url: 'https://github.com/xuarig007/jenkins-sample']]]) 
 	}
 	stage ('App-IC - Build') {
- 	
-// Unable to convert a build step referring to "hudson.plugins.sonar.SonarBuildWrapper". Please verify and convert manually if required.		// Maven build step
+ 			// Maven build step
 	withMaven(maven: 'maven') { 
  			if(isUnix()) {
  				sh "mvn clean package " 
 			} else { 
  				bat "mvn clean package " 
 			} 
- 		}		// Maven build step
-	withMaven(maven: 'maven') { 
- 			if(isUnix()) {
- 				sh "mvn sonar:sonar " 
-			} else { 
- 				bat "mvn sonar:sonar " 
-			} 
- 		}
-		// JUnit Results
-		junit '**/target/surefire-reports/*.xml' 
+ 		} 
 	}
 	stage ('App-IC - Post build actions') {
 /*
@@ -34,7 +24,7 @@ It may not necessarily work/behave in the same way as post-build actions work.
 A logic review is suggested.
 */
 		// Mailer notification
-		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'badr.nasslahsen@gmail.com', sendToIndividuals: false])
+		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'stephane.rigaux@gmail.com', sendToIndividuals: false])
  
 	}
 }
