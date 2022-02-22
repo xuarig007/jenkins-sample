@@ -21,8 +21,8 @@ node () {
 		steps {
 			withMaven(maven: 'maven') {
 		  		bat 'mvn test'
-		}
-	      }
+			}
+	      	}
 	}
 	stage(' Quality check') {
 		withSonarQubeEnv('Sonar') {
