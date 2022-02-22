@@ -17,6 +17,13 @@ node () {
 			} 
  		} 
 	}
+	stage('Test') {
+		steps {
+			withMaven(maven: 'maven') {
+		  		bat 'mvn test'
+		}
+	      }
+	}
 	stage(' Quality check') {
 		withSonarQubeEnv('Sonar') {
 			bat "mvn sonar:sonar"
